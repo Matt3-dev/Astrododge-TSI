@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <style>
-    canvas {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
+    body {
+        background: black;
     }
 </style>
 <html lang="en">
@@ -15,11 +11,34 @@
     <title>Document</title>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    <script src="model.js" type="text/javascript" defer></script>
-    <script src="path.js" type="text/javascript" defer></script>
-    <script src="graphics.js" type="text/javascript" defer></script>
-    <script src="keyboard.js" type="text/javascript" defer></script>
+    <div id="disclaimer" style="position: absolute; background-color: white; color: black; font-size: 100%;">
+        If you are seeing this message, then there are 3 options:
+        - the javascript code did not finish loading.
+        - check console for errors
+        - the browser has javascript disabled
+    </div>
+    <!-- Engine code -->
+    <script src="engine/model.js" type="text/javascript" defer></script>
+    <script src="engine/graphics.js" type="text/javascript" defer></script>
+    <script src="engine/keyboard.js" type="text/javascript" defer></script>
+    <script src="engine/mouse.js" type="text/javascript" defer></script>
+    <script src="engine/tilemap.js" type="text/javascript" defer></script>
+    <script src="engine/camera.js" type="text/javascript" defer></script>
+    <script src="engine/resourceloader.js" type="text/javascript" defer></script>
+    <script src="engine/collision.js" type="text/javascript" defer></script>
+    <script src="engine/color.js" type="text/javascript" defer></script>
+    <script src="engine/statistics.js" type="text/javascript" defer></script>
+    <script src="engine/game.js" type="text/javascript" defer></script>
+    <!-- Game code -->
+    <script src="game/asteroid.js" type="text/javascript" defer></script>
+    <script src="game/genericship.js" type="text/javascript" defer></script>
+    <script src="game/playership.js" type="text/javascript" defer></script>
+    <script src="game/aiship.js" type="text/javascript" defer></script>
+    <script src="game/simplebullet.js" type="text/javascript" defer></script>
+    <script src="game/gui.js" type="text/javascript" defer></script>
+    <script src="game/asteroidspawner.js" type="text/javascript" defer></script>
+    <script src="game/team.js" type="text/javascript" defer></script>
+    <script src="game/game.js" type="text/javascript" defer></script>
     <script src="app.js" type="text/javascript" defer></script>
 </body>
 </html>
