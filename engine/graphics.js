@@ -18,8 +18,6 @@ class Graphics {
         background.style.background = "black";
         document.querySelector("body").appendChild(background);
         document.querySelector("body").appendChild(this.canvas);
-
-        document.querySelector("#disclaimer").style.display = "none";
     }
     updateGraphics() {
         let lastwidth = this.width;

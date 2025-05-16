@@ -260,6 +260,15 @@ class AsteroidSprite {
         }
     }
     update() {
+        {
+            let t;
+            game.activeSprites.forEach((s) => {
+                if (s instanceof PlayerShipSprite) t = s;
+            });
+            if (t ?? false) {
+                if (Math.sqrt(Math.pow(t.x - this.x, 2), Math.pow(t.y - this.y, 2)) > 35) this.destroy = true;
+            }
+        }
         if (this.disintegrated) {
             this.timeSinceDisintegration += game.deltaTime;
             this.chunks.forEach((c) => {

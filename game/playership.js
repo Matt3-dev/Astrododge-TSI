@@ -164,7 +164,7 @@ class PlayerShipSprite extends GenericShipSprite {
         }
 
         // vfx
-        game.camera.setTargetPosition(this.x + 0.2 * dx, this.y + 0.2 * dy);
+        game.camera.setTargetPosition(this.x + 0.4 * dx, this.y + 0.4 * dy);
         game.camera.setTargetScale(1 + dv * 0.05, 1 + dv * 0.05);
         this.updateDashShadows();
         super.update();

@@ -1,9 +1,5 @@
 class Game {
     constructor() {
-        this.graphics = new Graphics();
-        this.graphics.updateGraphics();
-        this.keyboard = new Keyboard();
-        this.mouse = new Mouse();
         this.__currentTime = 0;
         this.__pausedTimeDifference = 0;
         this.__deltaTime = 0;
@@ -17,12 +13,16 @@ class Game {
         this.framesSinceStart = 0;
     }
     __start() {
-        let resLoader = new ResourceLoader();
+        let resLoader = new ResourceLoader(this);
         this.loadResources(resLoader);
-        resLoader.startLoading(() => this.__doneLoading());
+        resLoader.startLoading("__doneLoading");
     }
     __doneLoading() {
-        console.log(this.initializeObjects);
+        document.querySelector("#disclaimer").style.display = "none";
+        this.graphics = new Graphics();
+        this.graphics.updateGraphics();
+        this.keyboard = new Keyboard();
+        this.mouse = new Mouse();
         this.initializeObjects();
         requestAnimationFrame((time) => this.__update(time));
     }

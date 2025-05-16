@@ -48,7 +48,6 @@ class InGameGui {
                 ])
         ]);
 
-
         this.scanLineWidth = 0.4;
         this.scanLineModel = new Model([
             new Path(new Color(255, 255, 255, 0.2), [new Point(0, 0), new Point(16, 0)])
@@ -74,7 +73,7 @@ class InGameGui {
             game.graphics.drawModelOutline(this.scanLineModel, new OutlineProperties(this.scanLineWidth, new Color(255, 255, 255, 0.02 - tSPDsq / 100)), new Transform(new Point(0, i * this.scanLineWidth * 2 + ((this.lifetime * 0.4) % this.scanLineWidth) * 2), new Point(0, 0), new Point(1, 1), 0));
         }
 
-        game.graphics.drawModelOutline(this.ingameguil1, new OutlineProperties(0.1, Colors.black), new Transform(new Point(0, 0), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModelOutline(this.ingameguil1, new OutlineProperties(0.1, Colors.black), new Transform(new Point(-16 * tSPDsq / 8, -9 * tSPDsq / 8), new Point(0, 0), new Point(1 + tSPDsq / 4, 1 + tSPDsq / 4), 0));
         game.graphics.drawModel(this.ingameguil1, new Transform(new Point(-16 * tSPDsq / 8, -9 * tSPDsq / 8), new Point(0, 0), new Point(1 + tSPDsq / 4, 1 + tSPDsq / 4), 0));
         game.graphics.drawModel(this.ingameguil2, new Transform(new Point(0, 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
 

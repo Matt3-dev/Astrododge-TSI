@@ -191,7 +191,7 @@ class GenericShipSprite {
             this.y += this.vy * game.deltaTime;
             // collisions
             this.hitbox = this.defaultHitbox.scale(this.s, this.s).rotate(this.r).translate(this.x, this.y);
-            game.activeSprites.forEach((s) => {
+            if (Math.sqrt(Math.pow(this.x - game.camera.posx, 2) + Math.pow(this.y - game.camera.posy, 2)) < 20) game.activeSprites.forEach((s) => {
                 if (s === this) return;
                 if ((s.team ?? false) && (s.hitbox ?? false)) {
                     if (this.hitbox.collidesWith(s.hitbox)) {
@@ -204,9 +204,10 @@ class GenericShipSprite {
             });
         }
         if (this.accelerating) {
+            this.accelerationAudio.volume = Math.max(0, Math.min(1, 1 - Math.sqrt(Math.pow(this.x - game.camera.posx, 2) + Math.pow(this.y - game.camera.posy, 2)) / 30));
             if (!this.accelerationAudio.isPlaying) this.accelerationAudio.play();
         } else {
-            this.accelerationAudio.pause();
+            if (!this.accelerationAudio.paused) this.accelerationAudio.pause();
         }
         this.updateExhaustParticles(this.accelerating);
     }

@@ -58,7 +58,7 @@ class AIShipSprite extends GenericShipSprite  {
                     }
                 }
                 if (s instanceof AsteroidSprite) {
-                    let d = Math.sqrt(Math.pow(this.x - s.x, 2) + Math.pow(this.y - s.y, 2));
+                    let d = Math.sqrt(Math.pow(this.x + this.vx / 2 - s.x - s.vx / 2, 2) + Math.pow(this.y + this.vy / 3 - s.y - s.vy / 3, 2));
                     if (d < this.asteroid.d && !s.destroyed) {
                         this.asteroid.d = d;
                         this.asteroid.s = s;
@@ -87,7 +87,7 @@ class AIShipSprite extends GenericShipSprite  {
                     this.firingCooldown = this.firingSpeed;
                     game.queueNewSprite(new SimpleBulletSprite(this.team, 40, this.x, this.y, 10, this.r + Math.random() * 0.2 - 0.1, this.vx, this.vy));
                 }
-            } else if (this.friend.s) {
+            } else if (this.friend.s && (this.target.s ?? false)) {
                 this.lastKnownTarget.x = this.friend.s.x;
                 this.lastKnownTarget.y = this.friend.s.y;
                 this.lastKnownTarget.d = this.friend.d;
@@ -95,7 +95,7 @@ class AIShipSprite extends GenericShipSprite  {
                 if (this.friend.d > 5) this.accelerating = true;
             } else {
                 let d = Math.sqrt(Math.pow(this.x - game.camera.posx, 2) + Math.pow(this.y - game.camera.posy, 2));
-                if (d > 20) this.destroy = true;
+                if (d > 60) this.destroy = true;
                 this.r = Math.atan2(this.lastKnownTarget.y - this.y, this.lastKnownTarget.x - this.x) - Math.PI / 2
                 this.accelerating = true;
             }

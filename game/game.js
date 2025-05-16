@@ -6,14 +6,15 @@ class MyGame extends Game {
         this.activeSprites = [];
         this.queuedSprites = [];
     }
-    loadResources() { }
+    loadResources(resLoader) {
+    }
     initializeObjects() {
         this.camera = new Camera(1, 0.998);
         this.graphics.drawDebug = true;
 
         this.queueNewSprite(new PlayerShipSprite());
-        this.queueNewSprite(new AIShipSprite(0, -5, Team.ENEMY));
         this.queueNewSprite(new AsteroidSpawnerSprite());
+        this.queueNewSprite(new ShipSpawnerSprite());
     }
     update() {
         this.camera.updateCamera(this.deltaTime);
@@ -40,5 +41,6 @@ class MyGame extends Game {
         for (let i = 0; i < this.activeSprites.length; i++) {
             this.activeSprites[i].render();
         }
+        this.graphics.drawText(`E: ${this.activeSprites.length}`, new Point(16, 0), new TextProperties(0.25, "Arial", "bold", Colors.black, true, Colors.white, 0.005, "top", "right"));
     }
 }
