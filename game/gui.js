@@ -16,12 +16,17 @@ class InGameGui {
         ]);
         this.ingameguil2 = new Model([
             new Path(new Color(128, 128, 128, 0.5), [
-                new Point(11.5, 8.9), new Point(11.3, 8.2), new Point(4.5, 8.2), new Point(4.3, 8.9)
+                new Point(11.7, 8.9), new Point(11.5, 8.2), new Point(4.5, 8.2), new Point(4.3, 8.9)
+            ])
+        ]);
+        this.ingameguil3 = new Model([
+            new Path(new Color(128, 128, 128, 0.5), [
+                new Point(11.7, 0.1), new Point(11.5, 0.8), new Point(4.5, 0.8), new Point(4.3, 0.1)
             ])
         ]);
 
         this.barSpacing = 0.0375;
-        this.totalBarLength = 3;
+        this.totalBarLength = 3.15;
         this.barOutlineModel = new Model([
             new Path(Colors.black, [new Point(0, 0), new Point(this.totalBarLength, 0)])
         ]);
@@ -76,6 +81,9 @@ class InGameGui {
         game.graphics.drawModelOutline(this.ingameguil1, new OutlineProperties(0.1, Colors.black), new Transform(new Point(-16 * tSPDsq / 8, -9 * tSPDsq / 8), new Point(0, 0), new Point(1 + tSPDsq / 4, 1 + tSPDsq / 4), 0));
         game.graphics.drawModel(this.ingameguil1, new Transform(new Point(-16 * tSPDsq / 8, -9 * tSPDsq / 8), new Point(0, 0), new Point(1 + tSPDsq / 4, 1 + tSPDsq / 4), 0));
         game.graphics.drawModel(this.ingameguil2, new Transform(new Point(0, 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModel(this.ingameguil3, new Transform(new Point(0, -9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawTextOutline(`${this.parent.lifetime.toFixed(2)}s`, new Point(8, 0.5 - 9 * tSPDsq / 8), new TextProperties(0.5, "Arial", "bold", Colors.red, true, Colors.black, 0.05, "middle", "center"));
+        game.graphics.drawTextFill(`${this.parent.lifetime.toFixed(2)}s`, new Point(8, 0.5 - 9 * tSPDsq / 8), new TextProperties(0.5, "Arial", "bold", Colors.white, false, Colors.white, 0.01, "middle", "center"));
 
         game.graphics.drawModelOutline(this.hpModel, new OutlineProperties(0.075, Colors.black), new Transform(new Point(4.65, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
         game.graphics.drawModel(this.hpModel, new Transform(new Point(4.65, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
@@ -102,9 +110,9 @@ class InGameGui {
             }
         }
 
-        game.graphics.drawModelOutline(this.shieldModel, new OutlineProperties(0.075, Colors.black), new Transform(new Point(8.05, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
-        game.graphics.drawModel(this.shieldModel, new Transform(new Point(8.05, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
-        game.graphics.drawModelOutline(this.barOutlineModel, new OutlineProperties(0.25, Colors.black, "butt", "butt"), new Transform(new Point(8.2, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModelOutline(this.shieldModel, new OutlineProperties(0.075, Colors.black), new Transform(new Point(8.1, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModel(this.shieldModel, new Transform(new Point(8.1, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModelOutline(this.barOutlineModel, new OutlineProperties(0.25, Colors.black, "butt", "butt"), new Transform(new Point(8.25, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
         {
             let spaces = (this.parent.maxShield / 40) - 1;
             let totalLen = this.totalBarLength - ((Math.ceil(spaces) + 2) * this.barSpacing);
@@ -119,11 +127,11 @@ class InGameGui {
                 let model = new Model([
                     new Path(Colors.black, [new Point(begin, 0), new Point(totalEnd, 0)])
                 ]);
-                game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(40, 128, 40), "butt", "butt"), new Transform(new Point(8.2, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+                game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(40, 128, 40), "butt", "butt"), new Transform(new Point(8.25, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
                 model = new Model([
                     new Path(Colors.black, [new Point(begin, 0), new Point(accountedEnd, 0)])
                 ]);
-                game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(80, 255, 80), "butt", "butt"), new Transform(new Point(8.2, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+                game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(80, 255, 80), "butt", "butt"), new Transform(new Point(8.25, 8.4 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
             }
         }
 
@@ -143,9 +151,9 @@ class InGameGui {
             game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(0, 128, 255), "butt", "butt"), new Transform(new Point(4.8, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
         }
 
-        game.graphics.drawModelOutline(this.bulletModel, new OutlineProperties(0.075, Colors.black), new Transform(new Point(8.05, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
-        game.graphics.drawModel(this.bulletModel, new Transform(new Point(8.05, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
-        game.graphics.drawModelOutline(this.barOutlineModel, new OutlineProperties(0.25, Colors.black, "butt", "butt"), new Transform(new Point(8.2, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModelOutline(this.bulletModel, new OutlineProperties(0.075, Colors.black), new Transform(new Point(8.1, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModel(this.bulletModel, new Transform(new Point(8.1, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModelOutline(this.barOutlineModel, new OutlineProperties(0.25, Colors.black, "butt", "butt"), new Transform(new Point(8.25, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
         {
             let spaces = (this.parent.maxBulletCount) - 1;
             let totalLen = this.totalBarLength - ((Math.ceil(spaces) + 2) * this.barSpacing);
@@ -163,15 +171,15 @@ class InGameGui {
                 let model = new Model([
                     new Path(Colors.black, [new Point(begin, 0), new Point(totalEnd, 0)])
                 ]);
-                game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(64, 64, 64), "butt", "butt"), new Transform(new Point(8.2, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+                game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(64, 64, 64), "butt", "butt"), new Transform(new Point(8.25, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
                 model = new Model([
                     new Path(Colors.black, [new Point(begin, 0), new Point(cooldownEnd, 0)])
                 ]);
-                game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(128, 128, 128), "butt", "butt"), new Transform(new Point(8.2, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+                game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(128, 128, 128), "butt", "butt"), new Transform(new Point(8.25, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
                 model = new Model([
                     new Path(Colors.black, [new Point(begin, 0), new Point(accountedEnd, 0)])
                 ]);
-                game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(255, 255, 255), "butt", "butt"), new Transform(new Point(8.2, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
+                game.graphics.drawModelOutline(model, new OutlineProperties(0.25 - this.barSpacing * 2, new Color(255, 255, 255), "butt", "butt"), new Transform(new Point(8.25, 8.7 + 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
             }
         }
 
@@ -205,15 +213,17 @@ class CrosshairGui {
     }
 }
 class DestroyedGui {
-    constructor() {
+    constructor(time = 0) {
         this.destroy = false;
         this.priority = -1;
         this.lifetime = 0;
 
+        this.timeSurvived = time;
+
         this.model = new Model([
-            new Path(new Color(128, 128, 128, 1),
-                [new Point(11.5, 0.3), new Point(11.3, 1.0), new Point(4.5, 1.0), new Point(4.3, 0.3)]
-            )
+            new Path(new Color(128, 128, 128, 1), [
+                new Point(11.7, 0.3), new Point(11.5, 1), new Point(4.5, 1), new Point(4.3, 0.3)
+            ])
         ]);
     }
     update() {
@@ -222,7 +232,7 @@ class DestroyedGui {
     render() {
         game.graphics.drawModelOutline(this.model, new OutlineProperties(0.1, Colors.black), new Transform(new Point(0, 0 - 9 * this.animTime / 8), new Point(0, 0), new Point(1, 1), 0));
         game.graphics.drawModel(this.model, new Transform(new Point(0, 0 - 9 * this.animTime / 8), new Point(0, 0), new Point(1, 1), 0));
-        game.graphics.drawTextOutline("You got destroyed...", new Point(8, 0.7 - 9 * this.animTime / 8), new TextProperties(0.5, "Arial", "bold", Colors.red, true, Colors.black, 0.05, "middle", "center"));
-        game.graphics.drawTextFill("You got destroyed...", new Point(8, 0.7 - 9 * this.animTime / 8), new TextProperties(0.5, "Arial", "bold", Colors.white, false, Colors.white, 0.01, "middle", "center"));
+        game.graphics.drawTextOutline(`You got destroyed after ${this.timeSurvived.toFixed(1)}s`, new Point(8, 0.7 - 9 * this.animTime / 8), new TextProperties(0.45, "Arial", "bold", Colors.red, true, Colors.black, 0.05, "middle", "center"));
+        game.graphics.drawTextFill(`You got destroyed after ${this.timeSurvived.toFixed(1)}s`, new Point(8, 0.7 - 9 * this.animTime / 8), new TextProperties(0.45, "Arial", "bold", Colors.white, false, Colors.white, 0.01, "middle", "center"));
     }
 }

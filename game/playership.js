@@ -28,6 +28,7 @@ class PlayerShipSprite extends GenericShipSprite {
         this.bulletCount = this.maxBulletCount;
         this.bulletRefillSpeed = 1;
         this.bulletRefillTimer = 0;
+        this.bulletRefillAudio = new Audio('assets/sfx/reload.wav');
 
         this.setImmunity = 2;
         this.immunityTimer = 5;
@@ -40,7 +41,7 @@ class PlayerShipSprite extends GenericShipSprite {
     destroyShip(hitcoord = new Point(0, 0), hitvel = new Point(0, 0), hitstr = 0) {
         this.crosshair.destroy = true;
         this.gui.parentDestroyed = true;
-        game.queueNewSprite(new DestroyedGui());
+        game.queueNewSprite(new DestroyedGui(this.lifetime));
         super.destroyShip(hitcoord, hitvel, hitstr);
     }
     dash() {
@@ -143,6 +144,7 @@ class PlayerShipSprite extends GenericShipSprite {
             if (this.bulletRefillTimer > this.bulletRefillSpeed) {
                 this.bulletCount++;
                 this.bulletRefillTimer -= this.bulletRefillSpeed;
+                this.bulletRefillAudio.play();
             }
         } else {
             this.bulletRefillTimer = 0;
