@@ -78,6 +78,15 @@ class InGameGui {
             game.graphics.drawModelOutline(this.scanLineModel, new OutlineProperties(this.scanLineWidth, new Color(255, 255, 255, 0.02 - tSPDsq / 100)), new Transform(new Point(0, i * this.scanLineWidth * 2 + ((this.lifetime * 0.4) % this.scanLineWidth) * 2), new Point(0, 0), new Point(1, 1), 0));
         }
 
+        if (this.lifetime < 7) {
+            game.graphics.drawTextFill("Time you survived", new Point(8, 1), new TextProperties(0.25, "Arial", "bold", new Color(255, 255, 255, -0.5 * (this.lifetime - 7)), false, Colors.black, 0.01, "middle", "center"));
+            game.graphics.drawTextFill("Accelerate using [space]", new Point(8, 8), new TextProperties(0.25, "Arial", "bold", new Color(255, 255, 255, -0.5 * (this.lifetime - 7)), false, Colors.black, 0.01, "middle", "center"));
+            game.graphics.drawTextFill("Your health", new Point(4.4, 8.4), new TextProperties(0.25, "Arial", "bold", new Color(255, 255, 255, -0.5 * (this.lifetime - 7)), false, Colors.black, 0.01, "middle", "right"));
+            game.graphics.drawTextFill("Dash using [w]", new Point(4.3, 8.7), new TextProperties(0.25, "Arial", "bold", new Color(255, 255, 255, -0.5 * (this.lifetime - 7)), false, Colors.black, 0.01, "middle", "right"));
+            game.graphics.drawTextFill("Your EMF shield", new Point(11.6, 8.4), new TextProperties(0.25, "Arial", "bold", new Color(255, 255, 255, -0.5 * (this.lifetime - 7)), false, Colors.black, 0.01, "middle", "left"));
+            game.graphics.drawTextFill("Shoot using [LMB]", new Point(11.7, 8.7), new TextProperties(0.25, "Arial", "bold", new Color(255, 255, 255, -0.5 * (this.lifetime - 7)), false, Colors.black, 0.01, "middle", "left"));
+        }
+
         game.graphics.drawModelOutline(this.ingameguil1, new OutlineProperties(0.1, Colors.black), new Transform(new Point(-16 * tSPDsq / 8, -9 * tSPDsq / 8), new Point(0, 0), new Point(1 + tSPDsq / 4, 1 + tSPDsq / 4), 0));
         game.graphics.drawModel(this.ingameguil1, new Transform(new Point(-16 * tSPDsq / 8, -9 * tSPDsq / 8), new Point(0, 0), new Point(1 + tSPDsq / 4, 1 + tSPDsq / 4), 0));
         game.graphics.drawModel(this.ingameguil2, new Transform(new Point(0, 9 * tSPDsq / 8), new Point(0, 0), new Point(1, 1), 0));
@@ -219,20 +228,50 @@ class DestroyedGui {
         this.lifetime = 0;
 
         this.timeSurvived = time;
+        this.bestTime = 0;
+        this.isBest = false;
+        this.savesCookies = false;
 
-        this.model = new Model([
+        this.modeltop = new Model([
             new Path(new Color(128, 128, 128, 1), [
                 new Point(11.7, 0.3), new Point(11.5, 1), new Point(4.5, 1), new Point(4.3, 0.3)
             ])
         ]);
+        this.modelbottom = new Model([
+            new Path(new Color(128, 128, 128, 1), [
+                new Point(11.7, 8.7), new Point(11.5, 8), new Point(4.5, 8), new Point(4.3, 8.7)
+            ])
+        ]);
+
+        if (!game.disabledCookies) {
+            let bestCookie = game.getCookie("besttime");
+            this.bestTime = parseFloat(bestCookie);
+            this.savesCookies = true;
+            if (this.timeSurvived > this.bestTime) {
+                this.bestTime = this.timeSurvived;
+                this.isBest = true;
+                game.writeCookie("besttime", this.bestTime.toFixed(1));
+            }
+        }
     }
     update() {
         this.animTime = Math.pow(4 - Math.min(4, this.lifetime), 2);
     }
     render() {
-        game.graphics.drawModelOutline(this.model, new OutlineProperties(0.1, Colors.black), new Transform(new Point(0, 0 - 9 * this.animTime / 8), new Point(0, 0), new Point(1, 1), 0));
-        game.graphics.drawModel(this.model, new Transform(new Point(0, 0 - 9 * this.animTime / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModelOutline(this.modeltop, new OutlineProperties(0.1, Colors.black), new Transform(new Point(0, 0 - 9 * this.animTime / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModel(this.modeltop, new Transform(new Point(0, 0 - 9 * this.animTime / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModelOutline(this.modelbottom, new OutlineProperties(0.1, Colors.black), new Transform(new Point(0, 9 * this.animTime / 8), new Point(0, 0), new Point(1, 1), 0));
+        game.graphics.drawModel(this.modelbottom, new Transform(new Point(0, 9 * this.animTime / 8), new Point(0, 0), new Point(1, 1), 0));
         game.graphics.drawTextOutline(`You got destroyed after ${this.timeSurvived.toFixed(1)}s`, new Point(8, 0.7 - 9 * this.animTime / 8), new TextProperties(0.45, "Arial", "bold", Colors.red, true, Colors.black, 0.05, "middle", "center"));
         game.graphics.drawTextFill(`You got destroyed after ${this.timeSurvived.toFixed(1)}s`, new Point(8, 0.7 - 9 * this.animTime / 8), new TextProperties(0.45, "Arial", "bold", Colors.white, false, Colors.white, 0.01, "middle", "center"));
+        if (!game.disabledCookies) {
+            game.graphics.drawTextOutline(`Best time: ${this.bestTime.toFixed(1)}s`, new Point(8, 8.4 + 9 * this.animTime / 8), new TextProperties(0.45, "Arial", "bold", Colors.red, true, Colors.black, 0.05, "middle", "center"));
+            game.graphics.drawTextFill(`Best time: ${this.bestTime.toFixed(1)}s`, new Point(8, 8.4 + 9 * this.animTime / 8), new TextProperties(0.45, "Arial", "bold", Colors.white, false, Colors.white, 0.01, "middle", "center"));
+        } else {
+            game.graphics.drawTextOutline(`Cookies are disabled;\nis this running offline?`, new Point(8, 8.4 + 9 * this.animTime / 8), new TextProperties(0.3, "Arial", "bold", Colors.red, true, Colors.black, 0.05, "middle", "center"));
+            game.graphics.drawTextFill(`Cookies are disabled;\nis this running offline?`, new Point(8, 8.4 + 9 * this.animTime / 8), new TextProperties(0.3, "Arial", "bold", Colors.white, false, Colors.white, 0.01, "middle", "center"));
+        }
+        if (this.isBest) game.graphics.drawTextOutline(`(new best!)`, new Point(11, 8.7 + 9 * this.animTime / 8), new TextProperties(0.25, "Arial", "bold", Colors.red, true, Colors.black, 0.05, "middle", "center"));
+        if (this.isBest) game.graphics.drawTextFill(`(new best!)`, new Point(11, 8.7 + 9 * this.animTime / 8), new TextProperties(0.25, "Arial", "bold", Colors.red, false, Colors.white, 0.01, "middle", "center"));
     }
 }

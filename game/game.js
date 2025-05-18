@@ -1,10 +1,14 @@
 'use strict';
 class MyGame extends Game {
-    constructor() {
-        super();
-        this.renderDebug = true;
+    start() {
+        this.renderDebug = false;
         this.activeSprites = [];
         this.queuedSprites = [];
+
+        document.title = "Game DEMO";
+
+        game.writeCookie("chk", 0);
+        if (game.getCookie("chk") === undefined) this.disabledCookies = true;
     }
     loadResources(resLoader) {
     }
@@ -18,7 +22,6 @@ class MyGame extends Game {
     }
     update() {
         this.camera.updateCamera(this.deltaTime);
-        if (this.mouse.getRightButtonPressed()) this.deltaTime /= 10;
         this.activeSprites = this.activeSprites.concat(this.queuedSprites);
         this.queuedSprites = [];
         this.activeSprites.sort((a, b) => { return b.priority - a.priority; });
@@ -35,12 +38,21 @@ class MyGame extends Game {
     queueNewSprite(sprite) {
         this.queuedSprites.push(sprite);
     }
+    writeCookie(name = "value", value = "") {
+        document.cookie = name + "=" + value + "; expires=Fri, 31 Dec 9999 23:59:59 GMT;";
+    }
+    getCookie(name) {
+        return document.cookie.split("; ").find((row) => row.startsWith(name + "="))?.split("=")[1];
+    }
+    deleteCookie(name = "value") {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    }
     render() {
         this.camera.drawGrid(this.graphics);
 
         for (let i = 0; i < this.activeSprites.length; i++) {
             this.activeSprites[i].render();
         }
-        this.graphics.drawText(`E: ${this.activeSprites.length}`, new Point(16, 0), new TextProperties(0.25, "Arial", "bold", Colors.black, true, Colors.white, 0.005, "top", "right"));
+        this.graphics.drawText(`Mateusz Kubeczo i Rafal Hajdzik 2bTE`, new Point(16, 0), new TextProperties(0.25, "Arial", "bold", Colors.black, true, Colors.white, 0.005, "top", "right"));
     }
 }

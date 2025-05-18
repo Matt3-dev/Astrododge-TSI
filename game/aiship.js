@@ -44,21 +44,21 @@ class AIShipSprite extends GenericShipSprite  {
                     }
                 }
                 if (s instanceof GenericShipSprite && (this.team & s.team)) {
-                    let d = Math.sqrt(Math.pow(this.x - s.x, 2) + Math.pow(this.y - s.y, 2));
+                    let d = Math.sqrt(Math.pow(this.x + this.vx - s.x, 2) + Math.pow(this.y + this.vy - s.y, 2));
                     if (d < this.friend.d && !s.destroyed) {
                         this.friend.d = d;
                         this.friend.s = s;
                     }
                 }
                 if (s instanceof PlayerShipSprite && (this.team & s.team)) {
-                    let d = Math.sqrt(Math.pow(this.x - s.x, 2) + Math.pow(this.y - s.y, 2));
+                    let d = Math.sqrt(Math.pow(this.x + this.vx - s.x - s.vx, 2) + Math.pow(this.y + this.vy - s.y - s.vy, 2));
                     if (!s.destroyed) {
                         this.friend.d = d;
                         this.friend.s = s;
                     }
                 }
                 if (s instanceof AsteroidSprite) {
-                    let d = Math.sqrt(Math.pow(this.x + this.vx / 2 - s.x - s.vx / 2, 2) + Math.pow(this.y + this.vy / 3 - s.y - s.vy / 3, 2));
+                    let d = Math.sqrt(Math.pow(this.x + this.vx - s.x - s.vx / 2, 2) + Math.pow(this.y + this.vy - s.y - s.vy / 2, 2));
                     if (d < this.asteroid.d && !s.destroyed) {
                         this.asteroid.d = d;
                         this.asteroid.s = s;
@@ -69,15 +69,17 @@ class AIShipSprite extends GenericShipSprite  {
                 this.lastKnownTarget.x = this.target.s.x;
                 this.lastKnownTarget.y = this.target.s.y;
                 this.lastKnownTarget.d = this.target.d;
+
                 if (this.target.d > 10) this.r = Math.atan2(this.target.s.y - this.y, this.target.s.x - this.x) + Math.PI / 2;
                 else this.r = Math.atan2(this.target.s.y + (this.target.s.vy * this.target.d / 9.7) - this.y,
-                    this.target.s.x + (this.target.s.vx * this.target.d / 9.7) - this.x) + Math.PI / 2;
-                if (this.target.d > 6) {
+                                         this.target.s.x + (this.target.s.vx * this.target.d / 9.7) - this.x) + Math.PI / 2;
+
+                if (this.target.d > 8) {
                     this.accelerating = true;
-                    if (this.target.d < 10) this.firingCooldown -= game.deltaTime / 2;
+                    if (this.target.d < 12) this.firingCooldown -= game.deltaTime / 2;
                     let acc = this.accelerationForce;
-                    if (this.target.d > 12) acc *= 1.5;
-                } else if (this.target.d < 3.5) {
+                    if (this.target.d > 14) acc *= 1.5;
+                } else if (this.target.d < 3) {
                     this.r -= Math.PI;
                     this.accelerating = true;
                 } else {
@@ -95,7 +97,7 @@ class AIShipSprite extends GenericShipSprite  {
                 if (this.friend.d > 5) this.accelerating = true;
             } else {
                 let d = Math.sqrt(Math.pow(this.x - game.camera.posx, 2) + Math.pow(this.y - game.camera.posy, 2));
-                if (d > 60) this.destroy = true;
+                if (d > 40) this.destroy = true;
                 this.r = Math.atan2(this.lastKnownTarget.y - this.y, this.lastKnownTarget.x - this.x) - Math.PI / 2
                 this.accelerating = true;
             }

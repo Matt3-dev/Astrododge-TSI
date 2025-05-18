@@ -13,7 +13,7 @@ class PlayerShipSprite extends GenericShipSprite {
 
         this.reciprocalDashSpeed = 0.3;
         this.dashForce = 1.2;
-        this.dashCooldown = 3;
+        this.dashCooldown = 4;
         this.timeSinceLastDash = this.dashCooldown;
         this.lastFrameTimeSinceLastDash = this.timeSinceLastDash;
         this.setDashEffectTimer = 0.5;
@@ -26,7 +26,7 @@ class PlayerShipSprite extends GenericShipSprite {
 
         this.maxBulletCount = 4;
         this.bulletCount = this.maxBulletCount;
-        this.bulletRefillSpeed = 1;
+        this.bulletRefillSpeed = 1.5;
         this.bulletRefillTimer = 0;
         this.bulletRefillAudio = new Audio('assets/sfx/reload.wav');
 

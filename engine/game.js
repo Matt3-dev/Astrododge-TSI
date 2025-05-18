@@ -13,6 +13,7 @@ class Game {
         this.framesSinceStart = 0;
     }
     __start() {
+        this.start();
         let resLoader = new ResourceLoader(this);
         this.loadResources(resLoader);
         resLoader.startLoading("__doneLoading");
